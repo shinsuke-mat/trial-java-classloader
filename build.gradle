@@ -1,0 +1,30 @@
+plugins {
+    id 'java'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+}
+
+task runWithJavaExec(type: Exec) {
+    dependsOn build
+    group = 'Execution'
+    description = 'Run the main class with ExecTask'
+    commandLine 'java',
+            '-classpath', sourceSets.main.runtimeClasspath.getAsPath(),
+            '-Dfile.encoding=UTF-8',
+            '-Djava.system.class.loader=example.CustomClassLoader',
+            'example.Main'
+
+}
